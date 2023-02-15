@@ -1,0 +1,52 @@
+.participant{
+   height: 100%;
+   width: 100%;
+   position: relative;
+   border-radius: 5px;
+   min-height: 200px;
+   .video {
+       width: 100%;
+       height: 100%;
+       object-fit: cover;
+       background: black;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    min-height: 200px;
+    }
+    .avatar{
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+        color: white;
+        background: orange;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: absolute;
+        font-size: 150px;
+        text-transform: uppercase;
+    }
+    .muted{
+        color: white;
+        position: absolute;
+        right: 10px;
+        top:10px;
+        height: 22px;
+        width: 22px;
+    }
+
+    .name{
+        color: white;
+        bottom: 10px;
+        left:20px;
+        position: absolute;
+    }
+}

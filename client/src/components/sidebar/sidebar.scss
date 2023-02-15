@@ -1,0 +1,116 @@
+$assetPath :"./assets/";
+
+.show{
+    display: block;
+  }
+  .hide{
+    display: none;
+  }
+
+.sidebar{
+    flex: 1;
+    border-right:0.5px solid lightgrey;
+    min-height: 100vh;
+    background-color: white;
+    
+    .top{
+       height: 50px;
+       display: flex;
+       align-items:center;
+       justify-content: center;
+       
+       .logo{
+        width:80px;
+        margin:0px;
+       }
+    }
+    hr{
+        height: 0;
+        border:0.5px solid lightgrey;
+    }
+    .center{
+       // padding-left: 10px;
+        ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            .title{
+                font-size:13px;
+                font-weight:bold;
+                color:rgba(97, 95, 95, 0.995);
+                margin-top: 15px;
+                margin-bottom: 5px;
+                display: none;
+            }
+            li{
+                display: flex;
+                align-items: center;
+                padding: 14.5px;
+                cursor: pointer;
+                
+                
+                &:hover{
+                    background-color:#ece8ff ;
+                }
+                .icon{
+                    font-size: 22.8px;
+                    color:#7451f8;
+                 
+                }
+                span{
+                    font-size: 15.5px;
+                    font-weight: bold;
+                    color:rgba(48, 40, 40, 0.533); //#8888
+                    margin-left: 10px;
+                    
+                   // display: none;
+                }
+            }
+        }
+    }
+    .flex{
+        display: flex;
+        
+    }
+    .bottom{
+        align-items: center;
+        margin-left: 10px;
+        margin-bottom: 5px;
+        .colorOption{
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            border: 1px solid #7451f8;
+            cursor: pointer;
+            margin: 6px;
+            
+            &:nth-child(1){
+                background-color: whitesmoke;
+               
+            }
+            &:nth-child(2){
+                background-color: #333;
+            }
+           
+        }
+    }
+}
+.sidebar.collapsed .center ul li span{
+
+    display: none;
+}
+.sidebar.collapsed.sidebar {
+flex: 0;
+}
+.sidebar.collapsed .top{
+    .logo{
+        width:43px;
+        //margin:0px;
+        margin-left:4px ;
+       }
+}
+.sidebar.collapsed .colorOption{
+    &:nth-child(1){
+        margin-bottom: 12px;
+    }
+}
