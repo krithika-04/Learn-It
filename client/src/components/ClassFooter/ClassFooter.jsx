@@ -1,4 +1,7 @@
 import React from 'react'
+import firebase from 'firebase/compat/app'
+import { useNavigate } from 'react-router-dom'
+import 'firebase/compat/database'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faVideo,
@@ -10,7 +13,31 @@ import {
   faMicrophoneSlash,
 } from '@fortawesome/free-solid-svg-icons'
 import './ClassFooter.scss'
-function ClassFooter() {
+import {
+
+  removeParticipant
+
+} from '../../store/actionCreater'
+import {useSelector,connect} from 'react-redux'
+function ClassFooter(props) {
+  const currentUser = useSelector((state)=>state.reducer.currentUser)
+  const navigate = useNavigate()
+  const handleCutCall =async ()=>{
+
+    const roomId = localStorage.getItem('RoomId')
+    let firepadRef = firebase.database().ref()
+    const participantRef = firepadRef.child(roomId).child('participants')
+    const currentUserId = Object.keys(currentUser)[0]
+    const currentUserRef = participantRef.child(currentUserId)
+    console.log(props)
+    console.log(currentUserRef)
+    props.removeParticipant(currentUserId)
+    await currentUserRef.remove()
+
+  
+    console.log("clicked cut the call")
+navigate('/dashboard')
+  }
   return (
    <div className='meetingFooter'>
     <div className='meetingIcons'>
@@ -25,11 +52,21 @@ function ClassFooter() {
       <FontAwesomeIcon
       icon={faDesktop}/>
     </div>
+    <div className='meetingIcons'>
+      <FontAwesomeIcon
+      icon={faPhone} onClick={handleCutCall}/>
+    </div>
    </div>
   )
 }
-
-export default ClassFooter
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeParticipant: (participantKey) =>
+      dispatch(removeParticipant(participantKey))
+   
+  }
+}
+export default connect(null,mapDispatchToProps)(ClassFooter)
 
 
 {/* <div className="footer-item">

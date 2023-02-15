@@ -6,6 +6,7 @@ import {configureStore } from '@reduxjs/toolkit'
 import reducer from './store/actionReducer'
 import './index.css'
 export const store = configureStore({reducer:{reducer},middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+  immutableCheck: false,
   serializableCheck: false,
 })})
 ReactDOM.createRoot(document.getElementById('root')).render(
