@@ -111,5 +111,15 @@
          display: flex;
          justify-content: center;
          align-items: center;
+     
 }
+.active {
+    background-color:   #ea4335;
+  }
+  
+  div[disabled]
+  {
+    pointer-events: none;
+    opacity: 0.3;
+  }
 }

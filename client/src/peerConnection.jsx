@@ -1,6 +1,17 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/database'
 import { store } from '../src/main'
+export const updatePreference = (userId, preference) => {
+  let firepadRef = firebase.database().ref()
+  const roomId = localStorage.getItem('RoomId')
+  const participantRef = firepadRef.child(roomId).child('participants')
+  const currentParticipantRef = participantRef
+    .child(userId)
+    .child("preferences");
+  setTimeout(() => {
+    currentParticipantRef.update(preference);
+  });
+};
 const createOffer = async (peerConnection, creatorId, receiverId) => {
   console.log('inside create offer')
   const roomId = localStorage.getItem('RoomId')

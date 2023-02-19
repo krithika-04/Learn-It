@@ -16,29 +16,43 @@ import {
   setUser,
   addParticipant,
   removeParticipant,
-  setUserStream
+  setUserStream,
+  updateUser,
+  updateParticipant
 } from '../../store/actionCreater'
 function Class(props) {
   const { c_id } = useParams()
   const { id } = useParams()
   const navigate = useNavigate()
-  const [user, setUser] = useState()
-  const [participants, setParticipants] = useState()
   const firepadRef = firebase.database().ref()
+  const getUserStream = async () => {
+    const localStream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true,
+    });
+
+    return localStream;
+  };
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true, video: true })
-      .then((mediaStream) => {
-        mediaStream.getVideoTracks()[0].enabled = false
-        console.log(mediaStream)
-        props.setUserStream(mediaStream)                                                    // console.log(mediaStream)
-      })
     fireBaseFunction()
   }, [])
+  const isUserSet = !!props.user;
+  const isStreamSet = !!props.stream;
   useEffect(() => {
     const studentRef = firepadRef.child(id).child('participants')
-    if (props.user) {
+    if (isStreamSet && isUserSet) {
+
       studentRef.on('child_added', async (snap) => {
+        const preferenceUpdateEvent = studentRef
+        .child(snap.key)
+        .child("preferences");
+      preferenceUpdateEvent.on("child_changed", (preferenceSnap) => {
+        props.updateParticipant({
+          [snap.key]: {
+            [preferenceSnap.key]: preferenceSnap.val(),
+          },
+        });
+      });
         const { uname, host, preference } = snap.val()
         console.log('pref', preference)
         props.addParticipant({
@@ -50,6 +64,7 @@ function Class(props) {
         })
       })
       studentRef.on('child_removed', async (snap) => {
+        console.log("hello",snap.key)
         props.removeParticipant(snap.key)
         console.log('removed')
         try {
@@ -73,12 +88,15 @@ function Class(props) {
         }
       })
     }
-  }, [props.user])
+  }, [isStreamSet, isUserSet])
 
   const fireBaseFunction = async () => {
-    console.log(id)
+    const stream = await getUserStream();
+    stream.getVideoTracks()[0].enabled = false
+    props.setUserStream(stream);
+    // console.log(id)
     const status = await get(child(firepadRef, id))
-    console.log(status)
+    // console.log(status)
 
     console.log(status.exists())
     if (!status.exists()) {
@@ -152,7 +170,7 @@ function Class(props) {
             },
           })
 
-          console.log(props)
+         // console.log(props)
           userRef.onDisconnect().remove()
           // console.log(firepadRef.key)
           // console.log(userRef.key)
@@ -175,6 +193,7 @@ function Class(props) {
           ...preference,
         },
       })
+
     }
   }
 
@@ -182,6 +201,8 @@ function Class(props) {
     return (
       <div>
         <Screen />
+        {/* <div>user:{JSON.stringify(props.user)}</div>
+<div>participants:{JSON.stringify(props.participants)}</div> */}
       </div>
     )
   } else {
@@ -192,18 +213,19 @@ function Class(props) {
 const mapStateToProps = (state) => {
   console.log('parti ', state)
   return {
+    stream:state.reducer.mediaStream,
     user: state.reducer.currentUser,
-    participants: state.reducer.participants,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setUserStream: (stream) => dispatch(setUserStream(stream)),
-    setUser: (user) => dispatch(setUser(user)),
     addParticipant: (participant) => dispatch(addParticipant(participant)),
+    setUser: (user) => dispatch(setUser(user)),
     removeParticipant: (participantKey) =>
       dispatch(removeParticipant(participantKey)),
+      updateParticipant: (user) => dispatch(updateParticipant(user))
    
   }
 }

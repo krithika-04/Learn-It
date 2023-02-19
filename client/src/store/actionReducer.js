@@ -1,5 +1,5 @@
-import { ADD_PARTICIPANT, REMOVE_PARTICIPANT } from "./actionTypes";
-import { createOffer,initializeListener,createAnswer } from "../peerConnection";
+import { ADD_PARTICIPANT, REMOVE_PARTICIPANT, SET_USER,SET_USER_STREAM,UPDATE_USER,UPDATE_PARTICIPANT } from "./actionTypes";
+import { createOffer,initializeListener,createAnswer,updatePreference } from "../peerConnection";
 // const host = JSON.parse(localStorage.getItem("HostId"))
 // console.log(host)
 let initialState = {
@@ -21,44 +21,74 @@ const stunServers = {
         }
     ]
 }
+const generateColor = () =>
+  "#" + Math.floor(Math.random() * 16777215).toString(16);
 const reducer = (state = initialState, action) => {
-  if (action.type == "SET_USER") {
+  if (action.type == SET_USER) {
     let { payload } = action;
-    console.log("asdfg")
-    initializeListener(Object.keys(payload.currentUser)[0])
-    state = { ...state, currentUser: { ...payload.currentUser } };
+    let participants = {...state.participants}
+    const newUserId = Object.keys(payload.currentUser)[0]
+    payload.currentUser[newUserId].avatarColor = generateColor();
+    initializeListener(newUserId)
+    state = { ...state, currentUser: { ...payload.currentUser },participants };
     return state;
-  } else if (action.type == "ADD_PARTICIPANT") {
+  } else if (action.type == ADD_PARTICIPANT) {
     let { payload } = action;
     const currentUserId = Object.keys(state.currentUser)[0];
     const participantId = Object.keys(payload.participant)[0];
+    let newParticipant = {...payload.participant};
+    if (state.mediaStream && currentUserId!==participantId) {
+      newParticipant =  addConnection(state.currentUser,newParticipant,state.mediaStream)
+    }
     if (currentUserId === participantId) {
-      payload.participant[participantId].currentUser = true;
+     newParticipant[participantId].currentUser = true;
     }
-   console.log(state.mediaStream)
-    if (state.mediaStream && !payload.participant[participantId].currentUser) {
-        console.log("heyy")
-      addConnection(state.currentUser,payload.participant,state.mediaStream)
-    }
-    payload.participant[participantId].avatarColor = `#${Math.floor(
-      Math.random() * 16777215
-    ).toString(16)}`;
-    let participants = { ...state.participants, ...payload.participant };
+  //  console.log(state.mediaStream)
+
+    newParticipant[participantId].avatarColor = generateColor();
+    let participants = { ...state.participants, ...newParticipant };
     state = { ...state, participants };
     return state;
-  } else if (action.type == "REMOVE_PARTICIPANT") {
-    let { payload } = action;
+  } else if (action.type == REMOVE_PARTICIPANT) {
+    console.log("123")
+    let  payload  = action.payload;
     let participants = { ...state.participants };
     delete participants[payload.participantKey];
     state = { ...state, participants };
+    console.log("removed")
     return state;
-  } else if (action.type == "SET_USER_STREAM") {
+  } else if (action.type == SET_USER_STREAM) {
     let { payload } = action;
     state = { ...state, ...payload };
     return state;
-  } else {
-    return state;
   }
+  else if (action.type === UPDATE_USER) {
+    let payload = action.payload;
+    const userId = Object.keys(state.currentUser)[0];
+    updatePreference(userId, payload.currentUser);
+    state.currentUser[userId] = {
+      ...state.currentUser[userId],
+      ...payload.currentUser,
+    };
+    state = {
+      ...state,
+      currentUser: { ...state.currentUser },
+    };
+    return state;
+  } else if (action.type === UPDATE_PARTICIPANT) {
+    let payload = action.payload;
+    const newUserId = Object.keys(payload.newUser)[0];
+
+    payload.newUser[newUserId] = {
+      ...state.participants[newUserId],
+      ...payload.newUser[newUserId],
+    };
+    let participants = { ...state.participants, ...payload.newUser };
+    state = { ...state, participants };
+    return state;
+  } 
+    return state;
+  
 };
 const addConnection =(currentUser,newUser,mediaStream)=>{
     console.log("inside addConnection")
@@ -79,5 +109,6 @@ if(sortedIds[1]==currentUserKey){
     console.log("sorted id 1")
     createOffer(peerConnection,sortedIds[1],sortedIds[0])
 }
+return newUser;
 }
 export default reducer;

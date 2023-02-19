@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faVideo,
@@ -8,18 +8,54 @@ import {
   faClosedCaptioning,
   faDesktop,
   faMicrophoneSlash,
+  faVideoSlash
 } from '@fortawesome/free-solid-svg-icons'
 import './ClassFooter.scss'
-function ClassFooter() {
+function ClassFooter(props) {
+  const [streamState, setStreamState] = useState({
+    mic: true,
+    video: false,
+    screen: false,
+  });
+  const micClick = () => {
+    setStreamState((currentState) => {
+      return {
+        ...currentState,
+        mic: !currentState.mic,
+      };
+    });
+  };
+
+  const onVideoClick = () => {
+    setStreamState((currentState) => {
+      return {
+        ...currentState,
+        video: !currentState.video,
+      };
+    });
+  };
+  useEffect(() => {
+    props.onMicClick(streamState.mic);
+  }, [streamState.mic]);
+  useEffect(() => {
+    props.onVideoClick(streamState.video);
+  }, [streamState.video]);
   return (
    <div className='meetingFooter'>
-    <div className='meetingIcons'>
+    <div     className={"meeting-icons " + (!streamState.mic ? "active" : "")}
+        data-tip={streamState.mic ? "Mute Audio" : "Unmute Audio"}
+        onClick={micClick}
+      >
         <FontAwesomeIcon
-        icon={faMicrophone}/>
+          icon={!streamState.mic ? faMicrophoneSlash : faMicrophone}
+          title="Mute"
+        />
     </div>
-    <div className='meetingIcons'>
-    <FontAwesomeIcon
-        icon={faVideo}/>
+    <div  className={"meeting-icons " + (!streamState.video ? "active" : "")}
+        data-tip={streamState.video ? "Hide Video" : "Show Video"}
+        onClick={onVideoClick}
+      >
+        <FontAwesomeIcon icon={!streamState.video ? faVideoSlash : faVideo} />
     </div>
     <div className='meetingIcons'>
       <FontAwesomeIcon
