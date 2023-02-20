@@ -7,7 +7,7 @@ import axios from 'axios'
 // import Chart from "../../components/chart/Chart"
 import './home.scss'
 
-const Home = (props) => {
+const Home = () => {
   const [state, setState] = useState()
   const [courseData, setCourseData] = useState()
   const callBack = (e) => {

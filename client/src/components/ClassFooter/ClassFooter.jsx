@@ -91,7 +91,6 @@ export default ClassFooter
     <FontAwesomeIcon className="icon red" icon={faClosedCaptioning} />
     <p className="title">Turn on captions</p>
   </div>
-
   {/* {isPresenting ? ( */}
   // <div className="icon-block">
   //   <FontAwesomeIcon className="icon red" icon={faDesktop} />

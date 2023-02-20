@@ -237,7 +237,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(Class)
 {/* <video src="" className="videoContainer" controls></video>
 <ClassHeader />
 <ClassFooter />
-
 <Messenger /> */
 }
 {
