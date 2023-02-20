@@ -1,7 +1,4 @@
-import React from 'react'
-import firebase from 'firebase/compat/app'
-import { useNavigate } from 'react-router-dom'
-import 'firebase/compat/database'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faVideo,
@@ -11,62 +8,64 @@ import {
   faClosedCaptioning,
   faDesktop,
   faMicrophoneSlash,
+  faVideoSlash
 } from '@fortawesome/free-solid-svg-icons'
 import './ClassFooter.scss'
-import {
-
-  removeParticipant
-
-} from '../../store/actionCreater'
-import {useSelector,connect} from 'react-redux'
 function ClassFooter(props) {
-  const currentUser = useSelector((state)=>state.reducer.currentUser)
-  const navigate = useNavigate()
-  const handleCutCall =async ()=>{
+  const [streamState, setStreamState] = useState({
+    mic: true,
+    video: false,
+    screen: false,
+  });
+  const micClick = () => {
+    setStreamState((currentState) => {
+      return {
+        ...currentState,
+        mic: !currentState.mic,
+      };
+    });
+  };
 
-    const roomId = localStorage.getItem('RoomId')
-    let firepadRef = firebase.database().ref()
-    const participantRef = firepadRef.child(roomId).child('participants')
-    const currentUserId = Object.keys(currentUser)[0]
-    const currentUserRef = participantRef.child(currentUserId)
-    console.log(props)
-    console.log(currentUserRef)
-    props.removeParticipant(currentUserId)
-    await currentUserRef.remove()
-
-  
-    console.log("clicked cut the call")
-navigate('/dashboard')
-  }
+  const onVideoClick = () => {
+    setStreamState((currentState) => {
+      return {
+        ...currentState,
+        video: !currentState.video,
+      };
+    });
+  };
+  useEffect(() => {
+    props.onMicClick(streamState.mic);
+  }, [streamState.mic]);
+  useEffect(() => {
+    props.onVideoClick(streamState.video);
+  }, [streamState.video]);
   return (
    <div className='meetingFooter'>
-    <div className='meetingIcons'>
+    <div     className={"meeting-icons " + (!streamState.mic ? "active" : "")}
+        data-tip={streamState.mic ? "Mute Audio" : "Unmute Audio"}
+        onClick={micClick}
+      >
         <FontAwesomeIcon
-        icon={faMicrophone}/>
+          icon={!streamState.mic ? faMicrophoneSlash : faMicrophone}
+          title="Mute"
+        />
     </div>
-    <div className='meetingIcons'>
-    <FontAwesomeIcon
-        icon={faVideo}/>
+    <div  className={"meeting-icons " + (!streamState.video ? "active" : "")}
+        data-tip={streamState.video ? "Hide Video" : "Show Video"}
+        onClick={onVideoClick}
+      >
+        <FontAwesomeIcon icon={!streamState.video ? faVideoSlash : faVideo} />
     </div>
     <div className='meetingIcons'>
       <FontAwesomeIcon
       icon={faDesktop}/>
     </div>
-    <div className='meetingIcons'>
-      <FontAwesomeIcon
-      icon={faPhone} onClick={handleCutCall}/>
-    </div>
    </div>
   )
 }
-const mapDispatchToProps = (dispatch) => {
-  return {
-    removeParticipant: (participantKey) =>
-      dispatch(removeParticipant(participantKey))
-   
-  }
-}
-export default connect(null,mapDispatchToProps)(ClassFooter)
+
+export default ClassFooter
 
 
 {/* <div className="footer-item">
@@ -92,7 +91,6 @@ export default connect(null,mapDispatchToProps)(ClassFooter)
     <FontAwesomeIcon className="icon red" icon={faClosedCaptioning} />
     <p className="title">Turn on captions</p>
   </div>
-
   {/* {isPresenting ? ( */}
   // <div className="icon-block">
   //   <FontAwesomeIcon className="icon red" icon={faDesktop} />

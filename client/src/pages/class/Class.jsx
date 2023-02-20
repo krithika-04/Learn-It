@@ -92,7 +92,7 @@ function Class(props) {
 
   const fireBaseFunction = async () => {
     const stream = await getUserStream();
-    stream.getVideoTracks()[0].
+    stream.getVideoTracks()[0].enabled = false
     props.setUserStream(stream);
     // console.log(id)
     const status = await get(child(firepadRef, id))
@@ -237,7 +237,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(Class)
 {/* <video src="" className="videoContainer" controls></video>
 <ClassHeader />
 <ClassFooter />
-
 <Messenger /> */
 }
 {

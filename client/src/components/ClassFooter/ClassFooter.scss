@@ -111,10 +111,15 @@
          display: flex;
          justify-content: center;
          align-items: center;
-         &:hover {
-            cursor: pointer;
-            box-shadow: 0 0 10px #ddd;
-          }
+     
 }
-
+.active {
+    background-color:   #ea4335;
+  }
+  
+  div[disabled]
+  {
+    pointer-events: none;
+    opacity: 0.3;
+  }
 }

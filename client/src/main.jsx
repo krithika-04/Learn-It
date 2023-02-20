@@ -8,6 +8,7 @@ import './index.css'
 export const store = configureStore({reducer:{reducer},middleware: (getDefaultMiddleware) => getDefaultMiddleware({
   immutableCheck: false,
   serializableCheck: false,
+  immutableCheck: false,
 })})
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
