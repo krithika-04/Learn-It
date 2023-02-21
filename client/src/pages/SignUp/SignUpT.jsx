@@ -24,7 +24,12 @@ const RegistrationT = () => {
   }
   const Register = async (e) => {
     e.preventDefault()
+
     try {
+      if(!(username && email && password && c_password)){
+        showToastErrorMessage('Enter all the details to continue')
+        return;
+      }
       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/register`, {
         username: username,
         email: email,

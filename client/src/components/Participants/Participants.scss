@@ -1,9 +1,11 @@
 .participants{
+    flex-grow: 2;
     display: grid;
     grid-template-columns: repeat(var(--grid-size),1fr);
     grid-gap:20px;
     height: 85vh;
     padding: 10px;
+   
 }
 // @media (max-width:800px) {
 //    .participants{

@@ -24,6 +24,10 @@ const Login = () => {
     try {
       console.log(email)
       console.log(password)
+      if(!(email&& password)) {
+        showToastErrorMessage('Enter all the details to continue')
+        return;
+      }
       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/login`, {
         email: email,
         password: password,
