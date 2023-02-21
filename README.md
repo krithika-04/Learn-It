@@ -29,7 +29,7 @@ Prisma makes it easy for developers to reason about their database queries by pr
 >>#### Socket.io ####
 >>#### Firebase Realtime Database ####
 >>#### React Js ####
->>#### Reduc ####
+>>#### Redux ####
 
   
   
