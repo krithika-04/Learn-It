@@ -6,7 +6,7 @@
 - Learning experiences designed to boost productivity
 
 ### Technologies Used ###
-|Requirement|Tech|
+|Requirement|Technology|
 |-----------|------------|
 |Node Framework|Koa|
 |Database|Mysql|
