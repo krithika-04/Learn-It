@@ -1,11 +1,16 @@
 # Learn-It #
 
-### Description ###
-- Learn-It is an online learning and teaching platform where the students are benefited from learning through online classes and the instructors who are willing to share their knowledge and earn through it.
-- Learn-It is a platform that allows instructors to host online courses on their preferred topics using Learn-It, instructors can also engage and interact with users via online classes,
-- Learning experiences designed to boost productivity
+**Learn-It** is an online learning and teaching platform where students benefit from learning through interactive online classes. Instructors have the opportunity to share their knowledge on their preferred topics.
 
-### Technologies Used ###
+## Key Features:
+- **Host Online Courses**: Learn-It allows instructors to host online courses on topics of their choice, providing a platform to reach and teach students.
+
+- **Engage and Interact**: Instructors can engage and interact with users through live online classes, fostering a dynamic learning environment.
+
+- **Boost Productivity**: Learn-It is designed to offer learning experiences that boost productivity and enhance the educational journey.
+
+## Technologies Used ##
+
 |Requirement|Technology|
 |-----------|------------|
 |Node Framework|Koa|
