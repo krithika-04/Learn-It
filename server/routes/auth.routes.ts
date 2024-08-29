@@ -4,7 +4,7 @@ import {login,logout,register,forgotPass,resetPass,verifyOtp,hello} from "../con
 const router = new Router()
 module.exports = app => {
  
-router.get("/api/hello",hello)
+
     router.post("/api/login",login);
     router.post("/api/register",register);
     // router.post("/api/profile",user.profile);
