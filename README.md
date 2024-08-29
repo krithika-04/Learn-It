@@ -31,10 +31,8 @@
   ![view-course-stu](https://github.com/user-attachments/assets/09be162e-1170-4bab-b850-2561d41da3f2)
 
 - **Interactive Learning**: The platform supports real-time interaction between students and instructors, making the learning experience engaging and effective.
-
-  ![Screenshot (143)](https://github.com/user-attachments/assets/d3dd8e3b-bc3e-4a27-af29-80883526c0a8)
-
   
+  ![Screenshot (143)](https://github.com/user-attachments/assets/4177b4ac-89af-477c-b3f5-cfabc33ebb6b)
 
 - **User-Friendly Interface**: Intuitive design ensures a seamless experience for both instructors and students, making it easy to navigate and use the platform.
 
