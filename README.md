@@ -18,19 +18,6 @@
 |State management| Redux |
 
 
--#### Koa ####
-  -Koa.js is a widely used Node.js web application framework. 
-  -As a lightweight Node.js framework, Koa.js provides a minimal interface for developing web applications and APIs.
->>#### Mysql ####
--MySQL is a relational database management system (RDBMS) based on the SQL (Structured Query Language) queries
->>#### Prisma ####
-Prisma makes it easy for developers to reason about their database queries by providing a clean and type-safe API for submitting database queries which returns plain old JavaScript objects.
->>#### WebRTC ####
->>#### Socket.io ####
->>#### Firebase Realtime Database ####
->>#### React Js ####
->>#### Redux ####
-
   
   
 
